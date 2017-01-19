@@ -7,7 +7,7 @@ SDL_ERROR::SDL_ERROR(const char * msg) :runtime_error((string(msg) + SDL_GetErro
 SDL_ERROR::SDL_ERROR(const string & msg) :runtime_error(msg + SDL_GetError()) {};
 
 string getResPath(string path) {
-	return string(SDL_GetBasePath()) + "res\\" + path;
+	return "res/" + path;
 }
 
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
