@@ -25,26 +25,14 @@ void bird::flap() {
 void bird::fall() {
 	switch (state) {
 	case START:
-		y += vy;
-		vy += 0.3*(rand() % 3 - 1);
-		vy *= 0.95;
-		if (vy > 3) { vy = 3; }
-		if (vy < -3) { vy = -3; }
-		if (y > INIT_POS_Y + 30) {
-			y = INIT_POS_Y + 30;
-			vy = -vy;
-		}
-		if (y < INIT_POS_Y - 30) {
-			y = INIT_POS_Y - 30;
-			vy = -vy;
-		}
+		y = INIT_POS_Y + 10 * sin(double(clock())/250);
 		break;
 	case FLYING:
 		y += vy;
-		vy += GRAVITY_ACCELERATION;
+		vy += GRAVITY_ACCELERATION - vy * abs(vy) * AIR_RESISTANCE;
 		if (y > SCREEN_HEIGHT - GROUND_HEIGHT) {
 			y = SCREEN_HEIGHT - GROUND_HEIGHT;
-			vy = -vy * 0.5;
+			vy = -vy*0.5;
 		}
 		angle = atan(vy / vx) * 180 / 3.1415926;
 		break;
@@ -88,19 +76,19 @@ bool bird::checkHit(const pipe & p) {
 }
 
 bool bird::checkHitBounce(const pipe & p) {
-	if ((x + r) < p.X || (x - r / 2) > p.X + p.width) {
+	if ((x + r) < p.X || (x - r / 2) >= p.X + p.width) {
 		return false;
 	}
 	else if (x > p.X && (x - r / 2) < p.X + p.width) {
 		if ((y - r) < p.Y) {
 			y = 2 * (p.Y + r) - y;
-			vy = -vy*0.8;
+			vy = -vy;
 			cout << "Bounce!" << endl;
 			return false;
 		}
 		else if ((y + r) > p.Y + p.gap) {
 			y = 2 * (p.Y - r + p.gap) - y;
-			vy = -vy*0.8;
+			vy = -vy;
 			cout << "Bounce!" << endl;
 			return false;
 		}

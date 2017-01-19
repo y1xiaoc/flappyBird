@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <math.h>
+#include <time.h>
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -17,12 +19,13 @@ const int BIRD_HIT_RAD = 20;
 const int INIT_POS_X = 200;
 const int INIT_POS_Y = 300;
 
-const int PIPE_WIDTH = 80;
-const int GAP_HEIGHT = 200;
+const int PIPE_WIDTH = 85;
+const int GAP_HEIGHT = 150;
 
 const int HORIZONTAL_SPEED = 3;
 const int FLAP_SPEED = 15;
 const double GRAVITY_ACCELERATION = 0.98;
+const double AIR_RESISTANCE = 0.005;
 
 enum STATE { START, FLYING, DYING };
 
