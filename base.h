@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <cmath>
+#include <time.h>
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
 

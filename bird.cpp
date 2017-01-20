@@ -29,7 +29,7 @@ void bird::fall() {
 		break;
 	case FLYING:
 		y += vy;
-		vy += GRAVITY_ACCELERATION - vy * abs(vy) * AIR_RESISTANCE;
+            vy += GRAVITY_ACCELERATION - vy * (abs((double)vy)) * AIR_RESISTANCE;
 		if (y > SCREEN_HEIGHT - GROUND_HEIGHT) {
 			y = SCREEN_HEIGHT - GROUND_HEIGHT;
 			vy = -vy*0.5;
