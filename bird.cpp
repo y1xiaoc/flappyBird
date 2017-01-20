@@ -1,10 +1,20 @@
 #include "bird.h"
 
-bird::bird(SDL_Renderer * ren, SDL_Texture * tex) :renderer(ren), texture(tex) {}
+bird::bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d) :renderer(ren), texList({ tex1, tex2, tex3, tex_d }) {};
 
 void bird::render() {
-	renderTexture(texture, renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
-		BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
+	if (state == START) {
+		renderTexture(texList[(clock() / 150) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
+	}
+	else if (state == FLYING) {
+		renderTexture(texList[(clock() / 100) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
+	}
+	else {
+		renderTexture(texList[3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
+	}
 }
 
 void bird::init() {
@@ -32,13 +42,16 @@ void bird::fall() {
             vy += GRAVITY_ACCELERATION - vy * (abs((double)vy)) * AIR_RESISTANCE;
 		if (y > SCREEN_HEIGHT - GROUND_HEIGHT) {
 			y = SCREEN_HEIGHT - GROUND_HEIGHT;
-			vy = -vy*0.5;
+			vy = -vy * 0.5;
 		}
-		angle = atan(vy / vx) * 180 / 3.1415926;
+		//angle = atan(vy / vx) * 180 / 3.1415926;
+		angle = atan((vy - 10) / vx) * 180 / 3.1415926;
+		if (angle < -20) { angle = -20; }
 		break;
 	case DYING:
 		if (y < SCREEN_HEIGHT - GROUND_HEIGHT) {
 			y += vy;
+			if (y > SCREEN_HEIGHT - GROUND_HEIGHT) { y = SCREEN_HEIGHT - GROUND_HEIGHT; }
 			vy += GRAVITY_ACCELERATION;
 		}
 		angle = atan(vy / (vx*0.1)) * 180 / 3.1415926;
@@ -56,8 +69,21 @@ bool bird::checkHit(const pipe & p) {
 			return false;
 		}
 		else {
-			state = DYING;
-			return true;
+			if ((y - r) < p.Y) {
+				y = p.Y + r;
+				vy = -vy * 0.5;
+				state = DYING;
+				return true;
+			}
+			else if ((y + r) > p.Y + p.gap) {
+				y = p.Y - r + p.gap;
+				vy = -vy * 0.5;
+				state = DYING; 
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 	}
 	else {
@@ -82,13 +108,13 @@ bool bird::checkHitBounce(const pipe & p) {
 	else if (x > p.X && (x - r / 2) < p.X + p.width) {
 		if ((y - r) < p.Y) {
 			y = 2 * (p.Y + r) - y;
-			vy = -vy;
+			vy = -vy * 0.8;
 			cout << "Bounce!" << endl;
 			return false;
 		}
 		else if ((y + r) > p.Y + p.gap) {
 			y = 2 * (p.Y - r + p.gap) - y;
-			vy = -vy;
+			vy = -vy * 0.8;
 			cout << "Bounce!" << endl;
 			return false;
 		}

@@ -11,10 +11,10 @@ const int SCREEN_WIDTH = 480;
 const int SCREEN_HEIGHT = 640;
 const int GROUND_HEIGHT = 80 + 20;
 
-const int BIRD_IMG_LEFT = 35;
+const int BIRD_IMG_LEFT = 30;
 const int BIRD_IMG_RIGHT = 25;
-const int BIRD_IMG_UP = 25;
-const int BIRD_IMG_DOWN = 25;
+const int BIRD_IMG_UP = 22;
+const int BIRD_IMG_DOWN = 22;
 const int BIRD_HIT_RAD = 20;
 const int INIT_POS_X = 200;
 const int INIT_POS_Y = 300;
@@ -23,9 +23,9 @@ const int PIPE_WIDTH = 85;
 const int GAP_HEIGHT = 150;
 
 const int HORIZONTAL_SPEED = 3;
-const int FLAP_SPEED = 15;
-const double GRAVITY_ACCELERATION = 0.98;
-const double AIR_RESISTANCE = 0.005;
+const int FLAP_SPEED = 11;
+const double GRAVITY_ACCELERATION = 0.7;
+const double AIR_RESISTANCE = 0.001;
 
 enum STATE { START, FLYING, DYING };
 
