@@ -18,6 +18,14 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
 	return texture;
 }
 
+Mix_Chunk* loadSound(const std::string &file) {
+	Mix_Chunk *sound = Mix_LoadWAV(file.c_str());
+	if (sound == nullptr) {
+		throw SDL_ERROR("load sound error: ");
+	}
+	return sound;
+}
+
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h) {
 	SDL_Rect rect;
 	rect.x = x;

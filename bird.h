@@ -8,7 +8,7 @@ class bird
 {
 public:
 	bird() = delete;
-	bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d);
+	bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d, Mix_Chunk * flap, Mix_Chunk * hit);
 	void render();
 	void init();
 	void flap();
@@ -25,6 +25,8 @@ private:
 	double angle = 0;
 	SDL_Renderer * renderer = nullptr;
 	vector<SDL_Texture*> texList = { nullptr, nullptr, nullptr, nullptr };
+	Mix_Chunk * chk_flap = nullptr;
+	Mix_Chunk * chk_hit = nullptr;
 public:
 	STATE state = START;
 };

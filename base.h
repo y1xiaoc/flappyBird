@@ -5,6 +5,8 @@
 #include <time.h>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 using namespace std;
 
@@ -40,6 +42,7 @@ public:
 
 string getResPath(string path);
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren);
+Mix_Chunk* loadSound(const std::string &file);
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h);
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h, double angle);
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h, SDL_RendererFlip);

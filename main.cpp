@@ -16,6 +16,12 @@ int main(int, char**) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		throw SDL_ERROR("init error: ");
 	}
+	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+		throw SDL_ERROR("init img error: ");
+	}
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		throw SDL_ERROR("init mixer error: ");
+	}
 
 	SDL_Window * win = SDL_CreateWindow("Something", 300, 50, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (win == nullptr) {
@@ -30,16 +36,23 @@ int main(int, char**) {
 		throw SDL_ERROR("create renderer error: ");
 	}
 
-	SDL_Texture * background = loadTexture(getResPath("background.png"), ren);
-	SDL_Texture * birdimg1 = loadTexture(getResPath("bird.png"), ren);
-	SDL_Texture * birdimg2 = loadTexture(getResPath("bird2.png"), ren);
-	SDL_Texture * birdimg3 = loadTexture(getResPath("bird3.png"), ren);
-	SDL_Texture * birdimg_d = loadTexture(getResPath("bird_d.png"), ren);
-	SDL_Texture * ground = loadTexture(getResPath("ground.png"), ren);
-	SDL_Texture * pipeimg = loadTexture(getResPath("pipe.png"), ren);
+
+	SDL_Texture * img_background = loadTexture(getResPath("background.png"), ren);
+	SDL_Texture * img_ground = loadTexture(getResPath("ground.png"), ren);
+	SDL_Texture * img_pipe = loadTexture(getResPath("pipe.png"), ren);
+
+	SDL_Texture * img_bird1 = loadTexture(getResPath("bird.png"), ren);
+	SDL_Texture * img_bird2 = loadTexture(getResPath("bird2.png"), ren);
+	SDL_Texture * img_bird3 = loadTexture(getResPath("bird3.png"), ren);
+	SDL_Texture * img_bird_d = loadTexture(getResPath("bird_d.png"), ren);
+
+	Mix_Chunk * snd_flap = loadSound(getResPath("flap.wav"));
+	Mix_Chunk * snd_score = loadSound(getResPath("score.wav"));
+	Mix_Chunk * snd_hit = loadSound(getResPath("hit.wav"));
+	Mix_Chunk * snd_final = loadSound(getResPath("final.wav"));
 	
-	bird myBird(ren, birdimg1, birdimg2, birdimg3, birdimg_d);
-	vector<pipe> pipeList = { pipe(ren, pipeimg), pipe(ren, pipeimg) };
+	bird myBird(ren, img_bird1, img_bird2, img_bird3, img_bird_d, snd_flap, snd_hit);
+	vector<pipe> pipeList = { pipe(ren, img_pipe, snd_score), pipe(ren, img_pipe, snd_score) };
 	SDL_Event e;
 	bool quit = false;
 	unsigned t = 0;
@@ -57,6 +70,7 @@ int main(int, char**) {
 			for (auto&p : pipeList) {
 				if (myBird.checkHit(p)) { //to use bouncing mode, change checkHit to checkHitBounce
 					cout << "hit!" << endl;
+					Mix_PlayChannel(-1, snd_hit, 0);
 				}
 			}
 		}
@@ -85,7 +99,7 @@ int main(int, char**) {
 		myBird.fall();
 
 		SDL_RenderClear(ren);
-		renderTexture(background, ren, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 7 / 8);
+		renderTexture(img_background, ren, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT * 7 / 8);
 
 		for (auto& p : pipeList) {
 			if (myBird.state == FLYING) {
@@ -96,7 +110,7 @@ int main(int, char**) {
 
 		for (int i = 0; i < 35; ++i) {
 			int pos = (i*SCREEN_WIDTH / 20 - t*HORIZONTAL_SPEED) % (SCREEN_WIDTH * 21 / 20) - SCREEN_WIDTH / 20;
-			renderTexture(ground, ren, pos, SCREEN_HEIGHT * 7 / 8, SCREEN_WIDTH / 20, SCREEN_HEIGHT / 8);
+			renderTexture(img_ground, ren, pos, SCREEN_HEIGHT * 7 / 8, SCREEN_WIDTH / 20, SCREEN_HEIGHT / 8);
 		}
 
 		myBird.render();
@@ -113,7 +127,10 @@ int main(int, char**) {
 
 	}
 
-	cleanup(background, birdimg1, birdimg2, birdimg3, birdimg_d, pipeimg, ground, ren, win);
+	cleanup(snd_final, snd_flap, snd_hit, snd_score);
+	cleanup(img_background, img_bird1, img_bird2, img_bird3, img_bird_d, img_pipe, img_ground, ren, win);
+	IMG_Quit();
+	Mix_Quit();
 	SDL_Quit();
 
 	return 0;
