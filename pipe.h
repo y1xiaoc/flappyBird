@@ -22,4 +22,5 @@ public:
 	int gap = GAP_HEIGHT;
 	int vx = HORIZONTAL_SPEED;
 	static int grade;
+	static int highest;
 };

@@ -24,8 +24,8 @@ const int PIPE_WIDTH = 85;
 const int GAP_HEIGHT = 150;
 
 const int HORIZONTAL_SPEED = 3;
-const int FLAP_SPEED = 10;
-const double GRAVITY_ACCELERATION = 0.6;
+const int FLAP_SPEED = 11;
+const double GRAVITY_ACCELERATION = 0.7;
 const double AIR_RESISTANCE = 0.001;
 
 enum STATE { START, FLYING, DYING };

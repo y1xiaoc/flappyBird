@@ -17,7 +17,7 @@ int main(int, char**) {
 		throw SDL_ERROR("init error: ");
 	}
 
-	SDL_Window * win = SDL_CreateWindow("Something", 200, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	SDL_Window * win = SDL_CreateWindow("Something", 300, 50, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (win == nullptr) {
 		SDL_Quit();
 		throw SDL_ERROR("create window error: ");
@@ -31,11 +31,14 @@ int main(int, char**) {
 	}
 
 	SDL_Texture * background = loadTexture(getResPath("background.png"), ren);
-	SDL_Texture * birdimg = loadTexture(getResPath("bird.png"), ren);
+	SDL_Texture * birdimg1 = loadTexture(getResPath("bird.png"), ren);
+	SDL_Texture * birdimg2 = loadTexture(getResPath("bird2.png"), ren);
+	SDL_Texture * birdimg3 = loadTexture(getResPath("bird3.png"), ren);
+	SDL_Texture * birdimg_d = loadTexture(getResPath("bird_d.png"), ren);
 	SDL_Texture * ground = loadTexture(getResPath("ground.png"), ren);
 	SDL_Texture * pipeimg = loadTexture(getResPath("pipe.png"), ren);
 	
-	bird myBird(ren, birdimg);
+	bird myBird(ren, birdimg1, birdimg2, birdimg3, birdimg_d);
 	vector<pipe> pipeList = { pipe(ren, pipeimg), pipe(ren, pipeimg) };
 	SDL_Event e;
 	bool quit = false;
@@ -52,7 +55,7 @@ int main(int, char**) {
 			}
 
 			for (auto&p : pipeList) {
-				if (myBird.checkHitBounce(p)) { //to use bouncing mode, change checkHit to checkHitBounce
+				if (myBird.checkHit(p)) { //to use bouncing mode, change checkHit to checkHitBounce
 					cout << "hit!" << endl;
 				}
 			}
@@ -110,7 +113,7 @@ int main(int, char**) {
 
 	}
 
-	cleanup(background, birdimg, ren, win);
+	cleanup(background, birdimg1, birdimg2, birdimg3, birdimg_d, pipeimg, ground, ren, win);
 	SDL_Quit();
 
 	return 0;

@@ -1,6 +1,7 @@
 #include "pipe.h"
 
 int pipe::grade = 0;
+int pipe::highest = 0;
 
 pipe::pipe(SDL_Renderer * ren, SDL_Texture * tex) :renderer(ren), texture(tex) {}
 
@@ -19,6 +20,10 @@ void pipe::move() {
 		if (X > INIT_POS_X - BIRD_HIT_RAD - width && X <= INIT_POS_X - BIRD_HIT_RAD - width + vx) {
 			grade += 1;
 			cout << grade << endl;
+			if (grade > highest) {
+				highest = grade;
+				cout << "highest!" << endl;
+			}
 		}
 		X -= vx;
 	}
