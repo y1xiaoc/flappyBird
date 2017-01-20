@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <math.h>
-#include <time.h>
+
 #include "cleanup.h"
 #include "base.h"
 #include "pipe.h"
@@ -35,18 +34,6 @@ int main(int, char**) {
 	SDL_Texture * birdimg = loadTexture(getResPath("bird.png"), ren);
 	SDL_Texture * ground = loadTexture(getResPath("ground.png"), ren);
 	SDL_Texture * pipeimg = loadTexture(getResPath("pipe.png"), ren);
-	//try {
-	//	background = loadTexture(getResPath("background.png"), ren);
-	//	birdimg = loadTexture(getResPath("huaji.png"), ren);
-	//	ground = loadTexture(getResPath("ground.png"), ren);
-	//	pipeimg = loadTexture(getResPath("pipe.png"), ren);
-	//}
-	//catch (const SDL_ERROR& err) {
-	//	cleanup(ren, win);
-	//	SDL_Quit();
-	//	cout << err.what() << endl;
-	//	throw;
-	//}
 	
 	bird myBird(ren, birdimg);
 	vector<pipe> pipeList = { pipe(ren, pipeimg), pipe(ren, pipeimg) };
@@ -121,7 +108,6 @@ int main(int, char**) {
 		SDL_RenderPresent(ren);
 		SDL_Delay(1);
 
-		
 	}
 
 	cleanup(background, birdimg, ren, win);
