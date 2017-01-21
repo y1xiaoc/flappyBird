@@ -1,5 +1,6 @@
 #include "bird.h"
 
+//构造函数
 bird::bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d, Mix_Chunk * flap, Mix_Chunk * hit, Mix_Chunk * bounce) :renderer(ren), texList({ tex1, tex2, tex3, tex_d }),chk_flap(flap), chk_hit(hit), chk_bounce(bounce) {};
 
 void bird::render() {
