@@ -25,7 +25,7 @@ int main(int, char**) {
 		throw SDL_ERROR("init ttf error: ");
 	}
 
-	SDL_Window * win = SDL_CreateWindow("Something", 300, 50, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	SDL_Window * win = SDL_CreateWindow("flappy Mi", 300, 50, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (win == nullptr) {
 		SDL_Quit();
 		throw SDL_ERROR("create window error: ");
@@ -74,6 +74,7 @@ int main(int, char**) {
 	bool quit = false;
 	unsigned ground_t = 0;
 	unsigned dying_t = 0;
+	int alpha, tWidth, tHeight;
 
 	while (!quit) {
 
@@ -103,6 +104,7 @@ int main(int, char**) {
 					if (dying_t > 20) {
 						myBird.init();
 						pipe::grade = 0;
+						ground_t = 0;
 						for (auto& p : pipeList) {
 							p.X = -p.width;
 						}
@@ -137,7 +139,7 @@ int main(int, char**) {
 
 		if (myBird.state == DYING) {
 			//flash white
-			int alpha = dying_t > 20 ? 85 : (255 * (30 - dying_t) / 30);
+			alpha = dying_t > 20 ? 85 : (255 * (30 - dying_t) / 30);
 			SDL_SetRenderDrawColor(ren, 255, 255, 255, alpha);
 			SDL_RenderFillRect(ren, &fillScreen);
 			SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
@@ -147,20 +149,20 @@ int main(int, char**) {
 			renderTexture(img_board, ren, (SCREEN_WIDTH - BOARD_WIDTH) / 2, board_y, BOARD_WIDTH, BOARD_HEIGHT);
 
 			//render score
-			int tWidth = 0;
-			int tHight = 0;
 			TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 
 			ss << pipe::grade;
 			txt_score = createText(ss.str(), font, WHITE, ren);			
-			SDL_QueryTexture(txt_score, NULL, NULL, &tWidth, &tHight);
+			SDL_QueryTexture(txt_score, NULL, NULL, &tWidth, &tHeight);
 			renderTexture(txt_score, ren, (SCREEN_WIDTH - tWidth) / 2, board_y+47);
+			cleanup(txt_score);
 			ss.str("");
 
 			ss << pipe::highest;
 			txt_best = createText(ss.str(), font, WHITE, ren);
-			SDL_QueryTexture(txt_best, NULL, NULL, &tWidth, &tHight);
+			SDL_QueryTexture(txt_best, NULL, NULL, &tWidth, &tHeight);
 			renderTexture(txt_best, ren, (SCREEN_WIDTH - tWidth) / 2, board_y + 117);
+			cleanup(txt_best);
 			ss.str("");
 
 			if (dying_t > 20) {
@@ -177,19 +179,19 @@ int main(int, char**) {
 		}
 		else {
 			TTF_SetFontStyle(font, TTF_STYLE_BOLD);
-			int tWidth = 0;
-			int tHight = 0;
 			
 			ss << pipe::grade;
 			TTF_SetFontOutline(font, 1 );
 			txt_score = createText(ss.str(), font, BLACK, ren);
-			SDL_QueryTexture(txt_score, NULL, NULL, &tWidth, &tHight);
+			SDL_QueryTexture(txt_score, NULL, NULL, &tWidth, &tHeight);
 			renderTexture(txt_score, ren, (SCREEN_WIDTH - tWidth) / 2, 100);
-			
+			cleanup(txt_score);
+
 			TTF_SetFontOutline(font, 0);
 			txt_score = createText(ss.str(), font, WHITE, ren);
-			//SDL_QueryTexture(txt_score, NULL, NULL, &tWidth, &tHight);
+			//SDL_QueryTexture(txt_score, NULL, NULL, &tWidth, &tHeight);
 			renderTexture(txt_score, ren, (SCREEN_WIDTH - tWidth) / 2, 100);
+			cleanup(txt_score);
 
 			ss.str("");
 			dying_t = 0;
