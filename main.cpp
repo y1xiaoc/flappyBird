@@ -111,7 +111,7 @@ int main(int, char**) {
 					}
 				}
 				else {
-					if (e.key.keysym.sym == SDLK_b) {
+					if (e.key.keysym.sym == SDLK_b && myBird.state==START) {
 						myBird.bounce = true;
 					}
 					myBird.flap();
