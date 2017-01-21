@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <math.h>
-#include <time.h>
+#include <cmath>
+#include <ctime>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -40,6 +40,7 @@ public:
 	SDL_ERROR(const string & msg);
 };
 
+clock_t myClock();
 string getResPath(string path);
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren);
 Mix_Chunk* loadSound(const std::string &file);

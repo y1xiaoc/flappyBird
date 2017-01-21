@@ -5,11 +5,11 @@ bird::bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Textu
 
 void bird::render() {
 	if (state == START) {
-		renderTexture(texList[(clock() / 150) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+		renderTexture(texList[(myClock() / 150) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
 			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
 	}
 	else if (state == FLYING) {
-		renderTexture(texList[(clock() / 100) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+		renderTexture(texList[(myClock() / 100) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
 			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
 	}
 	else {
@@ -37,7 +37,7 @@ void bird::flap() {
 void bird::fall() {
 	switch (state) {
 	case START:
-		y = INIT_POS_Y + 10 * sin(double(clock())/250);
+		y = INIT_POS_Y + 10 * sin(double(myClock())/250);
 		break;
 	case FLYING:
 		y += vy;

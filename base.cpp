@@ -6,6 +6,10 @@ SDL_ERROR::SDL_ERROR() :runtime_error(strlen(SDL_GetError()) ? SDL_GetError() : 
 SDL_ERROR::SDL_ERROR(const char * msg) :runtime_error((string(msg) + SDL_GetError()).c_str()) {};
 SDL_ERROR::SDL_ERROR(const string & msg) :runtime_error(msg + SDL_GetError()) {};
 
+clock_t myClock() {
+	return clock() * 1000 / CLOCKS_PER_SEC;
+}
+
 string getResPath(string path) {
 	return string(SDL_GetBasePath()) + "res\\" + path;
 }
