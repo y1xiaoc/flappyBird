@@ -4,12 +4,13 @@
 #include "base.h"
 #include "pipe.h"
 
-class bird
+class bird //鸟类，定义了鸟的特征和行为
 {
 public:
 	bird() = delete;
+    //构造函数，参数是渲染器、飞行状态下的三种贴图、死亡状态下的贴图
 	bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d);
-	void render();
+	void render();//渲染出鸟的图像的函数
 	void init();
 	void flap();
 	void fall();
