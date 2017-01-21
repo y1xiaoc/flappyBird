@@ -3,14 +3,14 @@
 #include "cleanup.h"
 #include "base.h"
 
-class pipe
+class pipe //管子类，定义了管子的特征和行为
 {
 public:
-	pipe() = delete;
-	pipe(SDL_Renderer * ren, SDL_Texture * tex, Mix_Chunk* chk);
-	void init();
-	void render();
-	void move();
+	pipe() = delete; //屏蔽空构造函数
+	pipe(SDL_Renderer * ren, SDL_Texture * tex, Mix_Chunk* chk);//构造函数，参数是渲染器、贴图、得分音效
+	void init(); //设置管子的初始状态
+	void render(); //渲染出管子的图像
+	void move(); //使管子水平移动
 
 private:
 	SDL_Renderer * renderer = nullptr;

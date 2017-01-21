@@ -2,14 +2,17 @@
 #include <string>
 #include <vector>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
+#include <SDL2_ttf/SDL_ttf.h>
+#include <SDL2_mixer/SDL_mixer.h>
 
 using namespace std;
 
-const int SCREEN_WIDTH = 480;     //设置界面宽度
-const int SCREEN_HEIGHT = 640;    //设置界面高度
+
+const int SCREEN_HEIGHT = 640; //设置屏幕高度
+const int SCREEN_WIDTH = 480;  //设置屏幕宽度
 const int GROUND_HEIGHT = 80 + 20;//设置地面高度。实际地面高度为80，为了判断鸟的碰撞要加上鸟的半径20。
 
 const int BIRD_IMG_LEFT = 30;     //图片中鸟的左边缘与质心的距离
@@ -28,7 +31,7 @@ const int FLAP_SPEED = 11;        //设置鸟每次flap时向上的初速度
 const double GRAVITY_ACCELERATION = 0.7;//设置重力加速度
 const double AIR_RESISTANCE = 0.001;//设置空气阻力系数
 
-enum STATE { START, FLYING, DYING }; //STATE是用于决定鸟当前状态的枚举变量
+enum STATE { START, FLYING, DYING }; //STATE是用于决定鸟当前状态的枚举类
 
 class SDL_ERROR :public runtime_error //SDL_ERROR是继承于runtime_error的异常类，用于显示SDL相关的错误信息
 {
@@ -38,8 +41,13 @@ public:
 	SDL_ERROR(const string & msg);
 };
 
+clock_t myClock();
+
 string getResPath(string path); //用于获取资源存储位置的函数
+
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren); //将图片文件生成贴图的函数
+
+Mix_Chunk* loadSound(const std::string &file);
 
 //用于渲染贴图的函数，参数是贴图、渲染器、目标位置的横坐标、目标位置的纵坐标、目标的宽度、目标的高度
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h);
