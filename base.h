@@ -25,6 +25,9 @@ const int INIT_POS_Y = 300;
 const int PIPE_WIDTH = 85;
 const int GAP_HEIGHT = 150;
 
+const int BOARD_WIDTH = 160;
+const int BOARD_HEIGHT = 184;
+
 const int HORIZONTAL_SPEED = 3;
 const int FLAP_SPEED = 11;
 const double GRAVITY_ACCELERATION = 0.7;
@@ -41,9 +44,15 @@ public:
 };
 
 clock_t myClock();
+
 string getResPath(string path);
+
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren);
+
 Mix_Chunk* loadSound(const std::string &file);
+
+SDL_Texture* createText(const std::string &message, TTF_Font * font, SDL_Color color, SDL_Renderer *renderer);
+
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h);
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h, double angle);
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h, SDL_RendererFlip);

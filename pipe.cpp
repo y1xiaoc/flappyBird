@@ -20,10 +20,8 @@ void pipe::move() {
 		if (X > INIT_POS_X - BIRD_HIT_RAD - width && X <= INIT_POS_X - BIRD_HIT_RAD - width + vx) {
 			grade += 1;
 			Mix_PlayChannel(-1, chk_score, 0);
-			cout << grade << endl;
 			if (grade > highest) {
 				highest = grade;
-				cout << "highest!" << endl;
 			}
 		}
 		X -= vx;

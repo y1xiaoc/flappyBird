@@ -30,6 +30,19 @@ Mix_Chunk* loadSound(const std::string &file) {
 	return sound;
 }
 
+SDL_Texture* createText(const std::string &message, TTF_Font * font, SDL_Color color, SDL_Renderer *renderer) {
+	SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
+	if (surf == nullptr) {
+		throw SDL_ERROR("ttf render text error: ");
+	}
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
+	if (texture == nullptr) {
+		throw SDL_ERROR("create texture error: ");
+	}
+	SDL_FreeSurface(surf);
+	return texture;
+}
+
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h) {
 	SDL_Rect rect;
 	rect.x = x;
