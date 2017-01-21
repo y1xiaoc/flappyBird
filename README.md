@@ -1,2 +1,2 @@
 # flappyBird
-press any key to flap.
+press any key~~(b)~~ to flap~~(bounce)~~.
