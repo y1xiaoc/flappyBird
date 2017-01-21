@@ -26,6 +26,8 @@ private:
 	double angle = 0;
 	SDL_Renderer * renderer = nullptr;
 	vector<SDL_Texture*> texList = { nullptr, nullptr, nullptr, nullptr };
+	Mix_Chunk * chk_flap = nullptr;
+	Mix_Chunk * chk_hit = nullptr;
 public:
 	STATE state = START;
 };

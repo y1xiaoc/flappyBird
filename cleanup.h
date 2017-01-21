@@ -39,3 +39,11 @@ inline void cleanup<SDL_Surface>(SDL_Surface *surf) {
 	}
 	SDL_FreeSurface(surf);
 }
+
+template<>
+inline void cleanup<Mix_Chunk>(Mix_Chunk *chunk) {
+	if (!chunk) {
+		return;
+	}
+	Mix_FreeChunk(chunk);
+}

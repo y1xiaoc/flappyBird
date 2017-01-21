@@ -1,14 +1,15 @@
 #include "bird.h"
 
-bird::bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d) :renderer(ren), texList({ tex1, tex2, tex3, tex_d }) {};
+bird::bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d, 
+	Mix_Chunk * flap, Mix_Chunk * hit) :renderer(ren), texList({ tex1, tex2, tex3, tex_d }), chk_flap(flap), chk_hit(hit) {};
 
 void bird::render() {
 	if (state == START) {
-		renderTexture(texList[(clock() / 150) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+		renderTexture(texList[(myClock() / 150) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
 			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
 	}
 	else if (state == FLYING) {
-		renderTexture(texList[(clock() / 100) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+		renderTexture(texList[(myClock() / 100) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
 			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
 	}
 	else {
@@ -30,12 +31,13 @@ void bird::flap() {
 	vy = -FLAP_SPEED;
 	angle = atan(vy / vx) * 180 / 3.1415926;
 	state = FLYING;
+	Mix_PlayChannel(-1, chk_flap, 0);
 }
 
 void bird::fall() {
 	switch (state) {
 	case START:
-		y = INIT_POS_Y + 10 * sin(double(clock())/250);
+		y = INIT_POS_Y + 10 * sin(double(myClock())/250);
 		break;
 	case FLYING:
 		y += vy;
@@ -73,12 +75,14 @@ bool bird::checkHit(const pipe & p) {
 				y = p.Y + r;
 				vy = -vy * 0.5;
 				state = DYING;
+				Mix_PlayChannel(-1, chk_hit, 0);
 				return true;
 			}
 			else if ((y + r) > p.Y + p.gap) {
 				y = p.Y - r + p.gap;
 				vy = -vy * 0.5;
 				state = DYING; 
+				Mix_PlayChannel(-1, chk_hit, 0);
 				return true;
 			}
 			else {
@@ -96,6 +100,7 @@ bool bird::checkHit(const pipe & p) {
 		}
 		else {
 			state = DYING;
+			Mix_PlayChannel(-1, chk_hit, 0);
 			return true;
 		}
 	}
@@ -132,6 +137,7 @@ bool bird::checkHitBounce(const pipe & p) {
 		}
 		else {
 			state = DYING;
+			Mix_PlayChannel(-1, chk_hit, 0);
 			return true;
 		}
 	}

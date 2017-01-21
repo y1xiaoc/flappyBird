@@ -7,6 +7,10 @@ SDL_ERROR::SDL_ERROR() :runtime_error(strlen(SDL_GetError()) ? SDL_GetError() : 
 SDL_ERROR::SDL_ERROR(const char * msg) :runtime_error((string(msg) + SDL_GetError()).c_str()) {};
 SDL_ERROR::SDL_ERROR(const string & msg) :runtime_error(msg + SDL_GetError()) {};
 
+clock_t myClock() {
+	return clock() * 1000 / CLOCKS_PER_SEC;
+}
+
 string getResPath(string path) {
 	return "res/" + path;
 }
@@ -17,6 +21,14 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
 		throw SDL_ERROR("load texture error: ");
 	}
 	return texture;
+}
+
+Mix_Chunk* loadSound(const std::string &file) {
+	Mix_Chunk *sound = Mix_LoadWAV(file.c_str());
+	if (sound == nullptr) {
+		throw SDL_ERROR("load sound error: ");
+	}
+	return sound;
 }
 
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h) {
