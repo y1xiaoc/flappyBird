@@ -47,3 +47,11 @@ inline void cleanup<Mix_Chunk>(Mix_Chunk *chunk) {
 	}
 	Mix_FreeChunk(chunk);
 }
+
+template<>
+inline void cleanup<TTF_Font>(TTF_Font *font) {
+	if (!font) {
+		return;
+	}
+	TTF_CloseFont(font);
+}
