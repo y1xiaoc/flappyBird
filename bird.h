@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include "cleanup.h"
 #include "base.h"
 #include "pipe.h"
@@ -8,7 +7,7 @@ class bird
 {
 public:
 	bird() = delete;
-	bird(SDL_Renderer * ren, SDL_Texture * tex);;
+	bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d, Mix_Chunk * flap, Mix_Chunk * hit, Mix_Chunk * bounce);
 	void render();
 	void init();
 	void flap();
@@ -24,7 +23,11 @@ private:
 	double vy = 0;
 	double angle = 0;
 	SDL_Renderer * renderer = nullptr;
-	SDL_Texture * texture = nullptr;
+	vector<SDL_Texture*> texList = { nullptr, nullptr, nullptr, nullptr };
+	Mix_Chunk * chk_flap = nullptr;
+	Mix_Chunk * chk_hit = nullptr;
+	Mix_Chunk * chk_bounce = nullptr;
 public:
 	STATE state = START;
+	bool bounce = false;
 };
