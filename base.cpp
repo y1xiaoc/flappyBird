@@ -8,11 +8,12 @@ SDL_ERROR::SDL_ERROR(const char * msg) :runtime_error((string(msg) + SDL_GetErro
 SDL_ERROR::SDL_ERROR(const string & msg) :runtime_error(msg + SDL_GetError()) {};
 
 clock_t myClock() {
-	return clock() * 1000 / CLOCKS_PER_SEC;
+	return clock() * 1000 / CLOCKS_PER_SEC; //用于不同系统之间同步时间，保证返回的是毫秒单位
 }
 
 string getResPath(string path) {
-	return "res/" + path;
+	//return string(SDL_GetBasePath()) + "res\\" + path;
+	return "res/" + path;  //用于不同不同系统之间找到相对路径
 }
 
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
@@ -24,23 +25,23 @@ SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren) {
 }
 
 Mix_Chunk* loadSound(const std::string &file) {
-	Mix_Chunk *sound = Mix_LoadWAV(file.c_str());
-	if (sound == nullptr) {
+	Mix_Chunk *sound = Mix_LoadWAV(file.c_str()); //从文件读取音效，存入sound指针中
+	if (sound == nullptr) { //如果读取文件失败，sound是一个空指针，抛出异常
 		throw SDL_ERROR("load sound error: ");
 	}
 	return sound;
 }
 
 SDL_Texture* createText(const std::string &message, TTF_Font * font, SDL_Color color, SDL_Renderer *renderer) {
-	SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
-	if (surf == nullptr) {
+	SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);  //由于TTF包的渲染字体只能生成为surface
+	if (surf == nullptr) { //失败则抛出异常
 		throw SDL_ERROR("ttf render text error: ");
 	}
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
-	if (texture == nullptr) {
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf); //再从surface生成texture
+	if (texture == nullptr) { //失败则抛出异常
 		throw SDL_ERROR("create texture error: ");
 	}
-	SDL_FreeSurface(surf);
+	SDL_FreeSurface(surf); //从内存中释放surface
 	return texture;
 }
 
