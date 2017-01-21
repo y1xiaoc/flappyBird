@@ -1,8 +1,6 @@
 #include "bird.h"
 
-bird::bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d, 
-	Mix_Chunk * flap, Mix_Chunk * hit, Mix_Chunk * bounce) :renderer(ren), texList({ tex1, tex2, tex3, tex_d }),
-	chk_flap(flap), chk_hit(hit), chk_bounce(bounce) {};
+bird::bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d, Mix_Chunk * flap, Mix_Chunk * hit, Mix_Chunk * bounce) :renderer(ren), texList({ tex1, tex2, tex3, tex_d }),chk_flap(flap), chk_hit(hit), chk_bounce(bounce) {};
 
 void bird::render() {
 	if (state == START) {
@@ -45,7 +43,7 @@ void bird::fall() {
 		y += vy;
             vy += GRAVITY_ACCELERATION - vy * (abs((double)vy)) * AIR_RESISTANCE;
 		if (y > SCREEN_HEIGHT - GROUND_HEIGHT) {
-			y = SCREEN_HEIGHT - GROUND_HEIGHT;
+			y = 2 * (SCREEN_HEIGHT - GROUND_HEIGHT) - y;
 			vy = -vy * 0.5;
 			if (!bounce) {
 				state = DYING;

@@ -25,6 +25,8 @@ const int INIT_POS_Y = 300;       //设置鸟的初始纵坐标
 
 const int PIPE_WIDTH = 85;        //设置管子宽度
 const int GAP_HEIGHT = 150;       //设置上下两个管子之间距离
+const int BOARD_WIDTH = 160;
+const int BOARD_HEIGHT = 184;
 
 const int HORIZONTAL_SPEED = 3;   //设置管子水平移动的速度
 const int FLAP_SPEED = 11;        //设置鸟每次flap时向上的初速度
@@ -48,6 +50,8 @@ string getResPath(string path); //用于获取资源存储位置的函数
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren); //将图片文件生成贴图的函数
 
 Mix_Chunk* loadSound(const std::string &file);
+
+SDL_Texture* createText(const std::string &message, TTF_Font * font, SDL_Color color, SDL_Renderer *renderer);
 
 //用于渲染贴图的函数，参数是贴图、渲染器、目标位置的横坐标、目标位置的纵坐标、目标的宽度、目标的高度
 void renderTexture(SDL_Texture * tex, SDL_Renderer * ren, int x, int y, int w, int h);

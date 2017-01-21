@@ -12,15 +12,15 @@ public:
 	void move(); //使管子水平移动
 
 private:
-	SDL_Renderer * renderer = nullptr;
-	SDL_Texture * texture = nullptr;
-	Mix_Chunk * chk_score = nullptr;
+	SDL_Renderer * renderer = nullptr; //渲染器
+	SDL_Texture * texture = nullptr; //贴图
+	Mix_Chunk * chk_score = nullptr; //得分时的音效
 public:
-	int width = PIPE_WIDTH;
-	int X = -width;
-	int Y = 0;
-	int gap = GAP_HEIGHT;
-	int vx = HORIZONTAL_SPEED;
-	static int grade;
-	static int highest;
+	int width = PIPE_WIDTH; //管子宽度
+	int X = -width; //管子位置的横坐标
+	int Y = 0;      //管子位置的纵坐标
+	int gap = GAP_HEIGHT; //上下两根管子的间距
+	int vx = HORIZONTAL_SPEED; //管子水平移动的速度
+	static int grade; //静态数据成员，分数
+	static int highest; //静态数据成员，最高分
 };

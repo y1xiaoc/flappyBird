@@ -8,7 +8,7 @@ class bird //鸟类，定义了鸟的特征和行为
 public:
 	bird() = delete;
     //构造函数，参数是渲染器、飞行状态下的三种贴图、死亡状态下的贴图、鸟flap时的音效、鸟碰撞时的音效
-	bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d, Mix_Chunk * flap, Mix_Chunk * hit);
+    bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Texture * tex3, SDL_Texture * tex_d, Mix_Chunk * flap, Mix_Chunk * hit, Mix_Chunk * bounce);
     void render();//渲染出鸟的图像
 	void init();  //设置鸟的初始状态
 	void flap();  //每次flap时改变鸟状态
@@ -27,6 +27,8 @@ private:
 	vector<SDL_Texture*> texList = { nullptr, nullptr, nullptr, nullptr };//一个列表，包含了鸟4种状态下的贴图
 	Mix_Chunk * chk_flap = nullptr;//鸟flap时的音效
 	Mix_Chunk * chk_hit = nullptr; //鸟碰撞时的音效
+    Mix_Chunk * chk_bounce = nullptr;
 public:
 	STATE state = START; //表明鸟状态的枚举变量，默认为START
+    bool bounce = false;
 };
