@@ -7,11 +7,11 @@ bird::bird(SDL_Renderer * ren, SDL_Texture * tex1, SDL_Texture * tex2, SDL_Textu
 void bird::render() {
 	switch (state) { //根据当前鸟的状态决定不同的渲染行为
 	case START: //如果鸟的状态是START，就把鸟放在x、y所表示的位置，并利用texList和系统时间使鸟的图像在三种飞行贴图中转换，实现扇翅膀的效果；
-		renderTexture(texList[(myClock() / 150) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+		renderTexture(texList[(myClock() / 24) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
 			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
 		break;
 	case FLYING: //如果鸟的状态是FLYING，myClock()后除的数减小，翅膀扇得更快；
-		renderTexture(texList[(myClock() / 100) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
+		renderTexture(texList[(myClock() / 16) % 3], renderer, x - BIRD_IMG_LEFT, y - BIRD_IMG_UP,
 			BIRD_IMG_LEFT + BIRD_IMG_RIGHT, BIRD_IMG_UP + BIRD_IMG_DOWN, angle);
 		break;
 	case DYING: //如果鸟的状态是DYING，使用死亡状态的贴图，不扇翅膀。
@@ -43,7 +43,7 @@ void bird::flap() {
 void bird::fall() {
 	switch (state) { //根据鸟的运动状态不同决定不同行为
 	case START:  //如果鸟的状态为START，在竖直方向小幅度上下摆动
-		y = INIT_POS_Y + 10 * sin(double(myClock())/250);
+		y = INIT_POS_Y + 10 * sin(double(myClock())/40);
 		break;
 	case FLYING: //如果鸟的状态为FLYING，则模拟抛体运动
 		y += vy; //每一帧鸟竖直移动的量等于速度vy
