@@ -12,7 +12,7 @@ public:
     void render();//渲染出鸟的图像
 	void init();  //设置鸟的初始状态
 	void flap();  //每次flap时改变鸟状态
-	void fall();  //鸟自由下落时的运动状态
+	void fall();  //鸟的运动状态
 	bool checkHit(const pipe& p); //检查是否碰到柱子
 	bool checkHitBounce(const pipe& p); //在Bounce模式下，撞到柱子上下表面可以反弹，撞到柱子侧面才算死
 
