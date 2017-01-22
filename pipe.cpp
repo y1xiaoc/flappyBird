@@ -20,12 +20,12 @@ void pipe::render() {
 
 //使管子水平移动
 void pipe::move() {
-	if (X > -width) {
+	if (X > -width) { //管子移出屏幕后就不再移动或者做任何判断了
         //判断是否得分，如果现在鸟没有通过管子而在下一帧一定会通过管子，就判定为得分，分数、最高分相应改变，播放得分音效
 		if (X > INIT_POS_X - BIRD_HIT_RAD - width && X <= INIT_POS_X - BIRD_HIT_RAD - width + vx) {
-			grade += 1;
-			Mix_PlayChannel(-1, chk_score, 0);
-			if (grade > highest) {
+			grade += 1; //分数加一
+			Mix_PlayChannel(-1, chk_score, 0); //播放音效
+			if (grade > highest) { //更新最高分
 				highest = grade;
 			}
 		}
